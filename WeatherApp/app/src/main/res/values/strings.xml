@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="noInfoErrorMessage">No info for this country</string>
+    <string name="connectionErrorMessage">Connection problem</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="humidity">Humidity</string>
+    <string name="windSpeed">Wind speed</string>
+    <string name="dayAndNight">Day and Night</string>
+</resources>
