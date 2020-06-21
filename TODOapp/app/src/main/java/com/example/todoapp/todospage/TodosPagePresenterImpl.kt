@@ -1,7 +1,7 @@
 package com.example.todoapp.todospage
 
 import android.content.Context
-import com.example.todoapp.dataclasses.Note
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 
 class TodosPagePresenterImpl(var view: TodosPageContract.View, var context: Context) : TodosPageContract.Presenter {
 
@@ -11,18 +11,10 @@ class TodosPagePresenterImpl(var view: TodosPageContract.View, var context: Cont
         model = TodosPageModelImpl(this, context)
     }
 
-    override fun getFilteredNotes(searchWord: String): MutableList<Note> {
+    override fun getFilteredNotes(searchWord: String): MutableList<NoteWithSubNotes> {
         view.showLoader()
         val notes =  model.getFilteredNotes(searchWord)
         view.hideLoader()
         return notes
     }
-
-    override fun getAllNotes(): MutableList<Note> {
-        view.showLoader()
-        val notes = model.getAllNotes()
-        view.hideLoader()
-        return notes
-    }
-
 }

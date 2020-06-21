@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.Transaction
 import com.example.todoapp.database.NotesDatabase
-import com.example.todoapp.database.note.NoteHelper
-import com.example.todoapp.database.subnote.SubNoteHelper
-import com.example.todoapp.dataclasses.Note
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 import java.util.*
 
 class NotePageModelImpl(var presenter: NotePageContract.Presenter, var context: Context) : NotePageContract.Model {
@@ -21,20 +19,20 @@ class NotePageModelImpl(var presenter: NotePageContract.Presenter, var context: 
 
 
     @Transaction
-    override fun saveNote(note: Note) {
-        if (note.title.isEmpty()) {
-            database.getNoteDao().deleteNote(note = NoteHelper.toEntity(note))
+    override fun saveNote(noteWithSubNotes: NoteWithSubNotes) {
+        if (noteWithSubNotes.note.title.isEmpty()) {
+            database.getNoteDao().deleteNote(note = noteWithSubNotes.note)
             return
         }
 
-        note.lastUpdateDate = Date()
-        var newNoteId = database.getNoteDao().insertNote(NoteHelper.toEntity(note))
-        note.subNotes.forEach {
+        noteWithSubNotes.note.lastUpdateDate = Date()
+        var newNoteId = database.getNoteDao().insertNote(noteWithSubNotes.note)
+        noteWithSubNotes.subNotes.forEach {
             it.noteId = newNoteId.toInt()
             if (it.description.isEmpty()) {
-                database.getSubNoteDao().deleteNote(SubNoteHelper.toEntity(it))
+                database.getSubNoteDao().deleteNote(it)
             } else {
-                database.getSubNoteDao().insertNote(SubNoteHelper.toEntity(it))
+                database.getSubNoteDao().insertNote(it)
             }
         }
     }

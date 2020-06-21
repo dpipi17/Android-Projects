@@ -18,7 +18,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
-import com.example.todoapp.dataclasses.Note
+import com.example.todoapp.database.note.Note
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 import com.example.todoapp.todospage.recyclerview.RecyclerViewAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ import kotlin.collections.ArrayList
 class TodosPageFragment : Fragment(), TodosPageContract.View {
 
     private lateinit var progressBar: ProgressBar
-    private var cells : MutableList<Note> = ArrayList()
+    private var cells : MutableList<NoteWithSubNotes> = ArrayList()
     private lateinit var presenter: TodosPageContract.Presenter
     private lateinit var recyclerView: RecyclerView
     private lateinit var takeNoteTextView: TextView
@@ -100,7 +101,7 @@ class TodosPageFragment : Fragment(), TodosPageContract.View {
     private fun addListeners() {
         takeNoteTextView.setOnClickListener {
             val args = Bundle()
-            args.putParcelable("note", Note(0, "", false, Date(), ArrayList()))
+            args.putParcelable("noteWithSubNotes", NoteWithSubNotes(Note(0, "", false, Date()), ArrayList()))
             navController.navigate(R.id.action_todosPageFragment_to_notePageFragment, args)
         }
 

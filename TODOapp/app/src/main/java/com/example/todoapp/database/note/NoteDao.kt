@@ -1,16 +1,18 @@
 package com.example.todoapp.database.note
 
 import androidx.room.*
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 
 @Dao
 interface NoteDao {
 
     @Query("select * from note_table")
-    fun getAllNotes(): MutableList<NoteEntity>
+    fun getAllNotes(): MutableList<Note>
 
     @Query("select * from note_table where id = :noteId")
-    fun getNote(noteId: Int): NoteEntity
+    fun getNote(noteId: Int): Note
 
+    @Transaction
     @Query("""
             select * 
             from note_table
@@ -21,11 +23,11 @@ interface NoteDao {
                         Where n.title like :searchWord 
                         or s.description like :searchWord)
             """)
-    fun getFilteredNotes(searchWord: String) : MutableList<NoteEntity>
+    fun getFilteredNotes(searchWord: String) : MutableList<NoteWithSubNotes>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNote(note: NoteEntity) : Long
+    fun insertNote(note: Note) : Long
 
     @Delete
-    fun deleteNote(note: NoteEntity)
+    fun deleteNote(note: Note)
 }

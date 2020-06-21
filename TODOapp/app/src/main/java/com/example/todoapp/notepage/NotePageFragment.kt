@@ -16,8 +16,8 @@ import com.example.todoapp.customviews.checkededittext.CheckedEditText
 import com.example.todoapp.customviews.checkededittext.CheckedEditTextModel
 import com.example.todoapp.customviews.imagedtextview.ImagedTextView
 import com.example.todoapp.customviews.imagedtextview.ImagedTextViewModel
-import com.example.todoapp.dataclasses.Note
-import com.example.todoapp.dataclasses.SubNote
+import com.example.todoapp.database.subnote.SubNote
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -28,7 +28,7 @@ class NotePageFragment : Fragment(), NotePageContract.View, CheckedEditText.Chec
 
     private lateinit var progressBar: ProgressBar
     private lateinit var presenter: NotePageContract.Presenter
-    private lateinit var note : Note
+    private lateinit var noteWithSubNotes : NoteWithSubNotes
     private lateinit var titleEditText : EditText
     private lateinit var lastUpdateTimeTextView : TextView
     private lateinit var pinnedImage : ImageView
@@ -53,9 +53,9 @@ class NotePageFragment : Fragment(), NotePageContract.View, CheckedEditText.Chec
     ): View? {
         val view = inflater.inflate(R.layout.fragment_note_page, container, false)
 
-        note = arguments?.get("note") as Note
+        noteWithSubNotes = arguments?.get("noteWithSubNotes") as NoteWithSubNotes
         initFields(view)
-        setFieldsValues(note)
+        setFieldsValues(noteWithSubNotes)
         addClickListeners()
         hideLoader()
 
@@ -89,14 +89,14 @@ class NotePageFragment : Fragment(), NotePageContract.View, CheckedEditText.Chec
         checkedItemsImagedTextView = ImagedTextView(context)
     }
 
-    private fun setFieldsValues(note: Note) {
-        pinnedImage.setImageResource(if (note.pinned) R.drawable.pinned else R.drawable.unpinned)
-        lastUpdateTimeTextView.text = "Edited ${SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(note.lastUpdateDate)}"
+    private fun setFieldsValues(noteWithSubNotes: NoteWithSubNotes) {
+        pinnedImage.setImageResource(if (noteWithSubNotes.note.pinned) R.drawable.pinned else R.drawable.unpinned)
+        lastUpdateTimeTextView.text = "Edited ${SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(noteWithSubNotes.note.lastUpdateDate)}"
 
-        titleEditText.setText(note.title)
+        titleEditText.setText(noteWithSubNotes.note.title)
         subNotesList.addView(titleEditText)
 
-        note.subNotes.forEach {
+        noteWithSubNotes.subNotes.forEach {
             if (!it.checked) {
                 lastUncheckedIndex++
                 addSubNote(
@@ -116,7 +116,7 @@ class NotePageFragment : Fragment(), NotePageContract.View, CheckedEditText.Chec
         addSeparator()
         addImagedTextView(ImagedTextViewModel(R.drawable.downarrow, "+${checkedItemsNum} Checked ${if (checkedItemsNum == 1) "item" else "items"}"), checkedItemsImagedTextView)
 
-        note.subNotes.forEach {
+        noteWithSubNotes.subNotes.forEach {
             if (it.checked) {
                 addSubNote(
                     CheckedEditTextModel(
@@ -171,8 +171,8 @@ class NotePageFragment : Fragment(), NotePageContract.View, CheckedEditText.Chec
 
     private fun addClickListeners() {
         pinnedImage.setOnClickListener {
-            note.pinned = !note.pinned
-            pinnedImage.setImageResource(if (note.pinned) R.drawable.pinned else R.drawable.unpinned)
+            noteWithSubNotes.note.pinned = !noteWithSubNotes.note.pinned
+            pinnedImage.setImageResource(if (noteWithSubNotes.note.pinned) R.drawable.pinned else R.drawable.unpinned)
         }
 
         backImage.setOnClickListener {
@@ -190,19 +190,19 @@ class NotePageFragment : Fragment(), NotePageContract.View, CheckedEditText.Chec
         }
     }
 
-    private fun getNoteToSave() : Note {
-        note.title = titleEditText.text.toString()
+    private fun getNoteToSave() : NoteWithSubNotes {
+        noteWithSubNotes.note.title = titleEditText.text.toString()
 
-        note.subNotes.clear()
+        noteWithSubNotes.subNotes.clear()
         for (i in 0 until subNotesList.childCount) {
             val v: View = subNotesList.getChildAt(i)
 
             if (v is CheckedEditText) {
-                note.subNotes.add(SubNote(v.getSubNoteId(), note.id, v.getDescription(), v.isChecked()))
+                noteWithSubNotes.subNotes.add(SubNote(v.getSubNoteId(), noteWithSubNotes.note.id, v.getDescription(), v.isChecked()))
             }
         }
 
-        return note
+        return noteWithSubNotes
     }
 
     private fun updateCheckedSubNotesTextView() {

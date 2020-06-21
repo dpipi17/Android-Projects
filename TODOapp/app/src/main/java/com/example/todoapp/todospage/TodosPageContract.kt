@@ -1,6 +1,6 @@
 package com.example.todoapp.todospage
 
-import com.example.todoapp.dataclasses.Note
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 
 interface TodosPageContract {
 
@@ -10,12 +10,10 @@ interface TodosPageContract {
     }
 
     interface Presenter {
-        fun getFilteredNotes(searchWord: String) : MutableList<Note>
-        fun getAllNotes() : MutableList<Note>
+        fun getFilteredNotes(searchWord: String) : MutableList<NoteWithSubNotes>
     }
 
     interface Model {
-        fun getFilteredNotes(searchWord: String) : MutableList<Note>
-        fun getAllNotes() : MutableList<Note>
+        fun getFilteredNotes(searchWord: String) : MutableList<NoteWithSubNotes>
     }
 }

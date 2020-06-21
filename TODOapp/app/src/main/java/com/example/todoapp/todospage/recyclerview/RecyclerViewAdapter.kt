@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
-import com.example.todoapp.dataclasses.Note
+import com.example.todoapp.database.note.Note
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -20,11 +21,11 @@ class RecyclerViewAdapter(val navController: NavController, val context: Context
         const val SECTION_TITLE_TYPE_NOTE_ID = -10
     }
 
-    private var cells: MutableList<Note> = ArrayList()
+    private var cells: MutableList<NoteWithSubNotes> = ArrayList()
 
     private var clickListener = View.OnClickListener {
         val args = Bundle()
-        args.putParcelable("note", cells[it.tag as Int])
+        args.putParcelable("noteWithSubNotes", cells[it.tag as Int])
         navController.navigate(R.id.action_todosPageFragment_to_notePageFragment, args)
     }
 
@@ -49,25 +50,25 @@ class RecyclerViewAdapter(val navController: NavController, val context: Context
             holder.setUpView(cells[position])
             holder.itemView.tag = holder.adapterPosition
         } else if (holder is SectionCellViewHolder) {
-            holder.setUpView(cells[position].title)
+            holder.setUpView(cells[position].note.title)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (cells[position].id == SECTION_TITLE_TYPE_NOTE_ID) {
+        if (cells[position].note.id == SECTION_TITLE_TYPE_NOTE_ID) {
             return SECTION_TITLE_TYPE
         }
         return NOTE_CELL_TYPE
     }
 
-    fun setData(notes: MutableList<Note>) {
+    fun setData(noteWithSubNotes: MutableList<NoteWithSubNotes>) {
         cells.clear()
         var pinnedNoteFound = false
 
-        notes.forEach {
-            if (it.pinned) {
+        noteWithSubNotes.forEach {
+            if (it.note.pinned) {
                 if (!pinnedNoteFound) {
-                    cells.add(Note(SECTION_TITLE_TYPE_NOTE_ID, "PINNED", false, Date(), ArrayList()))
+                    cells.add(NoteWithSubNotes(Note( SECTION_TITLE_TYPE_NOTE_ID, "PINNED", false, Date()), ArrayList()))
                 }
                 cells.add(it)
                 pinnedNoteFound = true
@@ -75,10 +76,10 @@ class RecyclerViewAdapter(val navController: NavController, val context: Context
         }
 
         var unPinnedNoteFound = false
-        notes.forEach {
-            if (!it.pinned) {
+        noteWithSubNotes.forEach {
+            if (!it.note.pinned) {
                 if (pinnedNoteFound && !unPinnedNoteFound) {
-                    cells.add(Note(SECTION_TITLE_TYPE_NOTE_ID, "OTHERS", false, Date(), ArrayList()))
+                    cells.add(NoteWithSubNotes(Note(SECTION_TITLE_TYPE_NOTE_ID, "OTHERS", false, Date()), ArrayList()))
                 }
                 cells.add(it)
                 unPinnedNoteFound = true

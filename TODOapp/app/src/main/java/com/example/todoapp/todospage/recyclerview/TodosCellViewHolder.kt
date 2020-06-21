@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
 import com.example.todoapp.customviews.checkededittext.CheckedEditTextModel
-import com.example.todoapp.dataclasses.Note
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 
 class TodosCellViewHolder(itemView: View, var context: Context?) : RecyclerView.ViewHolder(itemView) {
 
@@ -28,8 +28,8 @@ class TodosCellViewHolder(itemView: View, var context: Context?) : RecyclerView.
         checkedItemsTextView = itemView.findViewById(R.id.todos_cell_checked_items)
     }
 
-    fun setUpView(model : Note) {
-        title?.text = model.title
+    fun setUpView(model : NoteWithSubNotes) {
+        title?.text = model.note.title
 
         var printedSubNoteNum = 0
         var checkedItemsNum = 0

@@ -1,7 +1,7 @@
 package com.example.todoapp.notepage
 
 import android.content.Context
-import com.example.todoapp.dataclasses.Note
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 
 class NotePagePresenterImpl(var view: NotePageContract.View, var context: Context) : NotePageContract.Presenter {
 
@@ -11,9 +11,9 @@ class NotePagePresenterImpl(var view: NotePageContract.View, var context: Contex
         model = NotePageModelImpl(this, context)
     }
 
-    override fun saveNote(note: Note) {
+    override fun saveNote(noteWithSubNotes: NoteWithSubNotes) {
         view.showLoader()
-        model.saveNote(note)
+        model.saveNote(noteWithSubNotes)
         view.hideLoader()
     }
 

@@ -6,14 +6,14 @@ import androidx.room.*
 interface SubNoteDao {
 
     @Query("select * from sub_note_table where id = :subNoteId")
-    fun getSubNote(subNoteId: Int): SubNoteEntity
+    fun getSubNote(subNoteId: Int): SubNote
 
     @Query("select * from sub_note_table where noteId = :noteId")
-    fun getSubNotesByNoteId(noteId: Int) : MutableList<SubNoteEntity>
+    fun getSubNotesByNoteId(noteId: Int) : MutableList<SubNote>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertNote(note: SubNoteEntity)
+    fun insertNote(note: SubNote)
 
     @Delete
-    fun deleteNote(note: SubNoteEntity)
+    fun deleteNote(note: SubNote)
 }

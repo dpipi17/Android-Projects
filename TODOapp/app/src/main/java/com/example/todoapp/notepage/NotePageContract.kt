@@ -1,6 +1,6 @@
 package com.example.todoapp.notepage
 
-import com.example.todoapp.dataclasses.Note
+import com.example.todoapp.dataclasses.NoteWithSubNotes
 
 interface NotePageContract {
 
@@ -10,10 +10,10 @@ interface NotePageContract {
     }
 
     interface Presenter {
-        fun saveNote(note: Note)
+        fun saveNote(noteWithSubNotes: NoteWithSubNotes)
     }
 
     interface Model {
-        fun saveNote(note: Note)
+        fun saveNote(noteWithSubNotes: NoteWithSubNotes)
     }
 }
