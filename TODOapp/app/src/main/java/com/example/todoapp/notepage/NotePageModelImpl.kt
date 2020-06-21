@@ -2,6 +2,7 @@ package com.example.todoapp.notepage
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.Transaction
 import com.example.todoapp.database.NotesDatabase
 import com.example.todoapp.database.note.NoteHelper
 import com.example.todoapp.database.subnote.SubNoteHelper
@@ -19,6 +20,7 @@ class NotePageModelImpl(var presenter: NotePageContract.Presenter, var context: 
     }
 
 
+    @Transaction
     override fun saveNote(note: Note) {
         if (note.title.isEmpty()) {
             database.getNoteDao().deleteNote(note = NoteHelper.toEntity(note))
