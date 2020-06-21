@@ -16,7 +16,7 @@ interface NoteDao {
             from note_table
             where id in (select distinct n.id 
                         from note_table n 
-                        inner join sub_note_table s 
+                        left join sub_note_table s 
                         on n.id = s.noteId 
                         Where n.title like :searchWord 
                         or s.description like :searchWord)
