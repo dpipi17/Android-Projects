@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="switchThemeTextColor" format="reference|color" />
+    <attr name="backgroundColor" format="reference|color" />
+    <attr name="numbersColor" format="reference|color" />
+
+    <declare-styleable name="CustomButton">
+        <attr name="customButtonNumbersColor" format="color" />
+
+        <attr name="operandColorType" format="enum" >
+            <enum name="yellowOperand" value="0"/>
+            <enum name="greenOperand" value="1"/>
+            <enum name="numberColorOperand" value="2"/>
+        </attr>
+    </declare-styleable>
+
+
+</resources>

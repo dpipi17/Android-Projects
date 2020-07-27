@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="darkModeColor">#081016</color>
+    <color name="darkModeButtonsBackgroundColor">#21282d</color>
+    <color name="lightModeColor">#ffffff</color>
+    <color name="lightModeButtonsBackgroundColor">#f7f7f7</color>
+    <color name="switchThemeYellow">#ffff00</color>
+    <color name="switchThemeGreen">#5ee29a</color>
+    <color name="buttonNumberOnDarkMode">#fafafa</color>
+    <color name="buttonNumberOnLightMode">#101010</color>
+    <color name="buttonOperandGreen">#1fc76d</color>
+    <color name="buttonOperandsYellow">#f0ba34</color>
+
+</resources>

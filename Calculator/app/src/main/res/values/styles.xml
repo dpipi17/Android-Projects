@@ -1,0 +1,36 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="DarkTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+
+        <item name="customButtonNumbersColor">@color/buttonNumberOnDarkMode</item>
+        <item name="android:background">@color/darkModeColor</item>
+        <item name="backgroundColor">@color/darkModeButtonsBackgroundColor</item>
+        <item name="numbersColor">@color/buttonNumberOnDarkMode</item>
+        <item name="switchThemeTextColor">@color/switchThemeYellow</item>
+
+    </style>
+
+    <style name="LightTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+
+        <item name="customButtonNumbersColor">@color/buttonNumberOnLightMode</item>
+        <item name="android:background">@color/lightModeColor</item>
+        <item name="backgroundColor">@color/lightModeButtonsBackgroundColor</item>
+        <item name="numbersColor">@color/buttonNumberOnLightMode</item>
+        <item name="switchThemeTextColor">@color/switchThemeGreen</item>
+    </style>
+
+</resources>
